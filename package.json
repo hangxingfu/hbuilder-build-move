@@ -1,7 +1,12 @@
 {
   "name": "hbuilder-build-move",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "将打包好的资源移动到项目指定的目录下",
+  "keywords": [
+    "Hbuilder",
+    "h5",
+    "build"
+  ],
   "main": "index.js",
   "bin": {
     "hbm": "index.mjs"
