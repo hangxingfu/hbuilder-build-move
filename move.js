@@ -72,8 +72,8 @@ async function main(src, dest, commitInfo) {
 
   console.log("🎉 所有文件复制完成 ");
   spawnSync("cd", [projectRoot]);
-  const pwd = spawnSync("pwd");
-  console.log("当前执行路径：", pwd.stdout.toString());
+  const cwd = process.cwd();
+  console.log("当前执行路径：", cwd);
 
   const gitCommands = [
     { cmd: "git", args: ["add", "."] },
