@@ -3,7 +3,7 @@ const fs = require("fs");
 const fsPromise = require("fs/promises");
 const childProcess = require("child_process");
 
-const { spawn, spawnSync } = childProcess;
+const { spawnSync } = childProcess;
 
 async function main(src, dest, commitInfo) {
   const getProjectRoot = (startPath = __dirname) => {
@@ -40,6 +40,17 @@ async function main(src, dest, commitInfo) {
   if (!fs.existsSync(targetDir)) {
     fs.mkdirSync(targetDir, { recursive: true });
     console.log(dest + " 目录创建完成");
+  } else {
+    // 删除目标目录下的文件
+    const result = spawnSync("rm", ["-rf", targetDir]);
+    console.log("result: ", result);
+
+    if (result.status !== 0) {
+      handleError("❌ 删除旧文件失败");
+      process.exit(1); // 终止后续命令
+    } else {
+      console.log("🎉 删除旧文件成功");
+    }
   }
   console.log("源目录 :>> ", path.join(projectRoot, src));
   console.log("目标目录 :>> ", targetDir);
@@ -84,8 +95,7 @@ async function main(src, dest, commitInfo) {
   for (const command of gitCommands) {
     const result = spawnSync(command.cmd, command.args, { stdio: "inherit" });
     if (result.status !== 0) {
-      console.error(`命令 ${command.cmd} 执行失败，退出码: ${result.status}`);
-      handleError(`命令 ${command.cmd} 执行失败`);
+      handleError(`❌ 命令 ${command.cmd} 执行失败`);
       process.exit(1); // 终止后续命令
     }
   }

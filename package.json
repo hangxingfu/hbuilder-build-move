@@ -1,6 +1,6 @@
 {
   "name": "hbuilder-build-move",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "将打包好的资源移动到项目指定的目录下",
   "keywords": [
     "Hbuilder",
