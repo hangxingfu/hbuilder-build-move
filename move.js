@@ -43,8 +43,6 @@ async function main(src, dest, commitInfo) {
   } else {
     // 删除目标目录下的文件
     const result = spawnSync("rm", ["-rf", targetDir]);
-    console.log("result: ", result);
-
     if (result.status !== 0) {
       handleError("❌ 删除旧文件失败");
       process.exit(1); // 终止后续命令
