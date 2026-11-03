@@ -12,7 +12,8 @@
     "hbm": "index.mjs"
   },
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "prepublishOnly": "npm test"
   },
   "engines": {
     "node": ">=18"
