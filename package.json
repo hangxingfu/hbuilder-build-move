@@ -7,12 +7,15 @@
     "h5",
     "build"
   ],
-  "main": "index.js",
+  "main": "move.js",
   "bin": {
     "hbm": "index.mjs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "author": "hxf",
   "license": "ISC",

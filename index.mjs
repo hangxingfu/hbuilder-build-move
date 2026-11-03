@@ -17,7 +17,7 @@ const data = fs.readFileSync(filePath, "utf8");
 const packageJson = JSON.parse(data);
 
 program
-  .name(packageJson.name)
+  .name("hbm")
   .description(packageJson.description)
   .version(packageJson.version);
 

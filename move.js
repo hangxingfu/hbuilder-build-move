@@ -37,19 +37,13 @@ async function main(src, dest, commitInfo) {
     handleError("未找打包完成的H5资源");
   }
   const targetDir = path.join(projectRoot, dest);
-  if (!fs.existsSync(targetDir)) {
-    fs.mkdirSync(targetDir, { recursive: true });
-    console.log(dest + " 目录创建完成");
-  } else {
-    // 删除目标目录下的文件
-    const result = spawnSync("rm", ["-rf", targetDir]);
-    if (result.status !== 0) {
-      handleError("❌ 删除旧文件失败");
-      process.exit(1); // 终止后续命令
-    } else {
-      console.log("🎉 删除旧文件成功");
-    }
+  if (fs.existsSync(targetDir)) {
+    // 整体删除重建，保证目录内容与本次打包结果完全一致
+    fs.rmSync(targetDir, { recursive: true, force: true });
+    console.log("🎉 删除旧文件成功");
   }
+  fs.mkdirSync(targetDir, { recursive: true });
+  console.log(dest + " 目录创建完成");
   console.log("源目录 :>> ", path.join(projectRoot, src));
   console.log("目标目录 :>> ", targetDir);
 
@@ -80,7 +74,6 @@ async function main(src, dest, commitInfo) {
   }
 
   console.log("🎉 所有文件复制完成 ");
-  spawnSync("cd", [projectRoot]);
   const cwd = process.cwd();
   console.log("当前执行路径：", cwd);
 
@@ -91,7 +84,10 @@ async function main(src, dest, commitInfo) {
   ];
 
   for (const command of gitCommands) {
-    const result = spawnSync(command.cmd, command.args, { stdio: "inherit" });
+    const result = spawnSync(command.cmd, command.args, {
+      stdio: "inherit",
+      cwd: projectRoot,
+    });
     if (result.status !== 0) {
       handleError(`❌ 命令 ${command.cmd} 执行失败`);
       process.exit(1); // 终止后续命令
